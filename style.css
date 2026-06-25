@@ -16,8 +16,8 @@ body {
 	height: 100vh;
 	overflow: hidden;
 	display: grid;
-	grid-template-columns: repeat(8, 1fr);
-	grid-template-rows: repeat(6, 1fr);
+	grid-template-columns: repeat(16, 1fr);
+	grid-template-rows: repeat(12, 1fr);
 	gap: 0.5rem;
 	padding: 0.75rem;
 	box-sizing: border-box;
@@ -32,10 +32,11 @@ body {
 	background-image:
 		linear-gradient(to right, #ffffff08 1px, transparent 1px),
 		linear-gradient(to bottom, #ffffff08 1px, transparent 1px);
-	background-size: calc((100% + 0.5rem) / 8) 100%, 100% calc((100% + 0.5rem) / 6);
+	background-size: calc((100% + 0.5rem) / 16) 100%, 100% calc((100% + 0.5rem) / 12);
 }
 
 .card {
+	position: relative;
 	background: #141414;
 	border: 1px solid #2a2a2a;
 	border-radius: 0.75rem;
@@ -46,7 +47,7 @@ body {
 	justify-content: center;
 	gap: 0.2rem;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-	transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+	transition: border-color 0.2s, box-shadow 0.2s;
 	cursor: grab;
 	user-select: none;
 	text-decoration: none;
@@ -67,11 +68,22 @@ body {
 	transform: scale(1.05);
 }
 
+@font-face {
+  font-family: 'CasioFX';
+  src: url('assets/casio-fx-9860gii.ttf') format('truetype');
+}
+
+.clock-card {
+  container-type: inline-size;
+}
+
 .time {
-	font-family: 'JetBrains Mono', monospace;
-	font-size: 2.25rem;
-	font-weight: 200;
-	line-height: 1;
+  font-family: 'CasioFX', monospace;
+  font-size: 7cqi;
+  color: #ccc;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.03em;
 }
 
 .greeting {
@@ -103,4 +115,55 @@ body {
 
 .search-input::placeholder {
 	color: #555555;
+}
+
+/* resize handle */
+.card::after {
+	content: '';
+	position: absolute;
+	right: 4px;
+	bottom: 4px;
+	width: 14px;
+	height: 14px;
+	border-right: 2px solid #444;
+	border-bottom: 2px solid #444;
+	border-radius: 0 0 6px 0;
+	opacity: 0;
+	transition: opacity 0.2s, border-color 0.2s;
+	pointer-events: none;
+}
+
+.card:hover::after {
+	opacity: 0.5;
+}
+
+.card.resizing::after {
+	opacity: 1;
+	border-color: #fff;
+}
+
+/* save card */
+.save-card {
+  cursor: pointer;
+  border-color: #222;
+}
+
+.save-card:hover {
+  border-color: #555;
+}
+
+.save-label {
+  font-size: 0.6rem;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.save-card:hover .save-label {
+  color: #aaa;
+}
+
+/* resizing state */
+.card.resizing {
+	border-color: #fff;
+	box-shadow: 0 0 0 2px #fff, 0 4px 12px rgba(0, 0, 0, 0.3);
 }
